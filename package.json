@@ -1,0 +1,35 @@
+{
+  "name": "hackhacker",
+  "version": "0.0.1",
+  "description": "hackhacker is great hacker tool",
+  "main": "app/browser/index.js",
+  "scripts": {
+    "clean": "rm -rf packages/v0.0.1/{hackhacker-{darwin,win32}-x64}",
+    "compile": "gulp compile",
+    "package": "electron-packager . hackhacker --arch=x64 --out=packages/v0.0.1 --platform=darwin,win32 --version=0.31.0 --ignore=packages/*",
+    "release": "npm run zip && npm run clean && npm run upload",
+    "setup": "npm install && brew tap tcnksm/ghr && brew install ghr && npm run compile",
+    "start": "electron .",
+    "upload": "ghr v0.0.1 packages/",
+    "watch": "gulp watch",
+    "zip": "npm run zip-darwin && npm run zip-win32",
+    "zip-darwin": "cd packages/v0.0.1 && zip -r hackhacker-darwin-x64.zip hackhacker-darwin-x64",
+    "zip-win32": "cd packages/v0.0.1 && zip -r hackhacker-win32-x64.zip hackhacker-win32-x64"
+  },
+  "repository": "henteko/hackhacker",
+  "author": "henteko",
+  "license": "MIT",
+  "devDependencies": {
+    "electron-packager": "^5.0.2",
+    "electron-prebuilt": "^0.31.0",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.2.1",
+    "gulp-plumber": "^1.0.1",
+    "gulp-sass": "^2.0.4",
+    "gulp-sym": "0.0.14",
+    "gulp-watch": "^4.3.5"
+  },
+  "dependencies": {
+    "font-awesome": "^4.4.0"
+  }
+}
