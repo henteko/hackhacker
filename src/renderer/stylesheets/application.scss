@@ -1,1 +1,10 @@
 @import "font-awesome/scss/font-awesome";
+
+body {
+  background-color: black;
+  overflow:hidden;
+
+  div.code {
+    color: green;
+  }
+}
