@@ -1,9 +1,33 @@
+var remote = require('remote');
+var BrowserWindow = remote.require('browser-window');
+
+var MIN_WINDOW_WIDTH = 400;
+var MIN_WINDOW_HEIGHT = 400;
+var MAX_WINDOW_WIDTH = 300;
+var MAX_WINDOW_HEIGHT = 300;
+var MAX_WINDOW_X = 1500;
+var MAX_WINDOW_Y = 1000;
+
+var index = 0;
+
 function addCode(textString) {
   var code = document.createElement("div");
   code.className = "code";
   var text = document.createTextNode(textString);
   code.appendChild(text);
   document.body.appendChild(code);
+}
+
+function createNewWindow() {
+  var width = Math.floor(Math.random()*MAX_WINDOW_WIDTH) + MIN_WINDOW_WIDTH;
+  var height = Math.floor(Math.random()*MAX_WINDOW_HEIGHT) + MIN_WINDOW_HEIGHT;
+  var windowX = Math.floor(Math.random()*MAX_WINDOW_X) + 1;
+  var windowY = Math.floor(Math.random()*MAX_WINDOW_Y) + 1;
+  var newWindow = new BrowserWindow({ width: width, height: height, x: windowX, y: windowY });
+  newWindow.loadUrl(`file://${__dirname}/../renderer/index.html`);
+    newWindow.on('closed', () => {
+      newWindow = null;
+  });
 }
 
 var hereDocArray = (function () {/*
@@ -115,10 +139,11 @@ var hereDocArray = (function () {/*
  }  // namespace atom
  */}).toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1].split(/\r\n|\r|\n/);
 
-var index = 0;
 document.addEventListener('keydown', function(event) {
-  if(index + 1 > hereDocArray.length)
+  if(index + 1 > hereDocArray.length) {
+    createNewWindow();
     return;
+  }
 
   var text = hereDocArray[index];
   addCode(text);
